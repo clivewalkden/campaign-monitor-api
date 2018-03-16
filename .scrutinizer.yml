@@ -1,11 +1,12 @@
 # .scrutinizer.yml
 build:
-    environment:
-        php:
-            version: 7.0
-    test:
+    tests:
         override:
             -
+                command: 'vendor/bin/phpunit --coverage-clover=/tmp/coverage.xml'
+                coverage:
+                    file: '/tmp/coverage.xml'
+                    format: 'clover'
 checks:
     php: true
 

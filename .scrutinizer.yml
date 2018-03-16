@@ -1,4 +1,11 @@
 # .scrutinizer.yml
+build:
+    environment:
+        php:
+            version: 7.0
+    test:
+        override:
+            -
 checks:
     php: true
 

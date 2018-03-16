@@ -5,10 +5,11 @@ namespace CliveWalkden\CampaignMonitor;
 class CampaignMonitor
 {
     private $api_key;
-    private $api_endpoint = 'https://api.createsend.com/api/v3.1/';
+    private $api_endpoint = 'https://api.createsend.com/api/v3.1';
     private $format = 'json';
 
     private $client_id;
+    private $list_id;
 
     const TIMEOUT = 10;
 
@@ -25,17 +26,37 @@ class CampaignMonitor
             throw new \Exception('cURL not found and is required for this to work.');
         }
 
-        if (strlen($api_key) != 32) {
+        if (!preg_match('/^[a-f0-9]{30,100}$/', $api_key)) {
             throw new \Exception("Invalid Campaign Monitor API Key `{$api_key}` supplied");
         } else {
             $this->api_key = $api_key;
         }
 
         if ($client_id) {
-            $this->client_id = $client_id;
+            $this->client_id = trim($client_id);
         }
 
         $this->last_response = ['headers' => null, 'body' => null];
+    }
+
+    /**
+     * @param string $client_id
+     */
+    public function setClientId($client_id)
+    {
+        $this->client_id = $client_id;
+
+        return $this;
+    }
+
+    /**
+     * @param mixed $list_id
+     */
+    public function setListId($list_id)
+    {
+        $this->list_id = $list_id;
+
+        return $this;
     }
 
     public function getApiEndpoint()
@@ -136,14 +157,18 @@ class CampaignMonitor
 
     private function formatMethod($method)
     {
-        $method = str_replace('{client_id}', $this->client_id, $method);
+        $method = str_replace(
+            ['{client_id}', '{list_id}'],
+            [$this->client_id, $this->list_id],
+            $method
+        );
 
         return $method;
     }
 
     private function makeRequest($http_verb, $method, $args = [], $timeout = self::TIMEOUT)
     {
-        $this->formatMethod($method);
+        $method = $this->formatMethod($method);
 
         $url = $this->api_endpoint . $method . '.' . $this->format;
 
@@ -174,6 +199,11 @@ class CampaignMonitor
         curl_setopt($ch, CURLOPT_ENCODING, '');
         curl_setopt($ch, CURLINFO_HEADER_OUT, true);
 
+        // Debug
+        $fp = fopen(SOZO_LOG_DIR . 'curl.txt', 'w');
+        curl_setopt($ch, CURLOPT_VERBOSE, 1);
+        curl_setopt($ch, CURLOPT_STDERR, $fp);
+
         switch ($http_verb) {
             case 'post':
                 curl_setopt($ch, CURLOPT_POST, true);
@@ -195,6 +225,10 @@ class CampaignMonitor
                 break;
 
             case 'put':
+                if ($args['email']) {
+                    $query = http_build_query(['email' => $args['email']], '', '&');
+                    curl_setopt($ch, CURLOPT_URL, $url . '?' . $query);
+                }
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
                 $this->attachRequestPayload($ch, $args);
                 break;

@@ -73,7 +73,7 @@ class CampaignMonitorTest extends TestCase
 
         $CampaignMonitor = new CampaignMonitor($CM_API_KEY);
 
-        $CampaignMonitor->get('systemdate');
+        $CampaignMonitor->get('/systemdate');
 
         $this->assertTrue($CampaignMonitor->success());
     }

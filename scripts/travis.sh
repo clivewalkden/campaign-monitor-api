@@ -2,6 +2,6 @@
 
 cd ${TRAVIS_BUILD_DIR}
 
-if [[ $TRAVIS_PHP_VERSION >= '7.0' ]]; then
+if [[ $PHPUNIT == true ]]; then
     phpunit
 fi

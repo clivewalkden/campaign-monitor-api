@@ -28,7 +28,6 @@ class CampaignMonitor
 
         if (!preg_match('/^[a-f0-9]{30,100}$/', $api_key)) {
             throw new \Exception("Invalid Campaign Monitor API Key `{$api_key}` supplied");
-            throw new \Exception("Invalid Campain Monitor API Key `{$api_key}` supplied");
         } else {
             $this->api_key = $api_key;
         }

@@ -1,5 +1,5 @@
 {
-    "name": "clivewalkden/createsend-api",
+    "name": "clivewalkden/campaign-monitor-api",
     "description": "Easy to use Campaign Monitor / Createsend API v3.1 wrapper",
     "type": "library",
     "license": "MIT",

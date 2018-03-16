@@ -49,7 +49,7 @@ class CampaignMonitor
     }
 
     /**
-     * @return string|false The error message
+     * @return string|boolean The error message
      */
     public function getLastError()
     {
@@ -71,7 +71,7 @@ class CampaignMonitor
      * @param   array $args Assoc array of arguments (if any)
      * @param   int $timeout Timeout limit for request in seconds
      *
-     * @return  array|false   Assoc array of API response, decoded from JSON
+     * @return  array|boolean   Assoc array of API response, decoded from JSON
      */
     public function delete($method, $args = array(), $timeout = self::TIMEOUT)
     {
@@ -85,7 +85,7 @@ class CampaignMonitor
      * @param   array $args Assoc array of arguments (usually your data)
      * @param   int $timeout Timeout limit for request in seconds
      *
-     * @return  array|false   Assoc array of API response, decoded from JSON
+     * @return  array|boolean   Assoc array of API response, decoded from JSON
      */
     public function get($method, $args = array(), $timeout = self::TIMEOUT)
     {
@@ -99,7 +99,7 @@ class CampaignMonitor
      * @param   array $args Assoc array of arguments (usually your data)
      * @param   int $timeout Timeout limit for request in seconds
      *
-     * @return  array|false   Assoc array of API response, decoded from JSON
+     * @return  array|boolean   Assoc array of API response, decoded from JSON
      */
     public function patch($method, $args = array(), $timeout = self::TIMEOUT)
     {
@@ -113,7 +113,7 @@ class CampaignMonitor
      * @param   array $args Assoc array of arguments (usually your data)
      * @param   int $timeout Timeout limit for request in seconds
      *
-     * @return  array|false   Assoc array of API response, decoded from JSON
+     * @return  array|boolean   Assoc array of API response, decoded from JSON
      */
     public function post($method, $args = array(), $timeout = self::TIMEOUT)
     {
@@ -127,7 +127,7 @@ class CampaignMonitor
      * @param   array $args Assoc array of arguments (usually your data)
      * @param   int $timeout Timeout limit for request in seconds
      *
-     * @return  array|false   Assoc array of API response, decoded from JSON
+     * @return  array|boolean   Assoc array of API response, decoded from JSON
      */
     public function put($method, $args = array(), $timeout = self::TIMEOUT)
     {
@@ -293,7 +293,7 @@ class CampaignMonitor
      *
      * @param array $response The response from the curl request
      *
-     * @return array|false    The JSON decoded into an array
+     * @return array|boolean    The JSON decoded into an array
      */
     private function formatResponse($response)
     {
@@ -341,7 +341,7 @@ class CampaignMonitor
      * @param array|false $formattedResponse The response body payload from the curl request
      * @param int $timeout The timeout supplied to the curl request.
      *
-     * @return bool     If the request was successful
+     * @return boolean     If the request was successful
      */
     private function determineSuccess($response, $formattedResponse, $timeout)
     {

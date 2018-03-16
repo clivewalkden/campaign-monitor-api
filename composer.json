@@ -1,0 +1,26 @@
+{
+    "name": "clivewalkden/createsend-api",
+    "description": "Easy to use Campaign Monitor / Createsend API v3.1 wrapper",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Clive Walkden",
+            "email": "clivewalkden@gmail.com"
+        }
+    ],
+    "homepage": "https://github.com/clivewalkden/createsend-api",
+    "require": {
+        "php": ">=5.3",
+        "ext-curl": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "7.0.*",
+        "vlucas/phpdotenv": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "CliveWalkden\\CampaignMonitor\\": "src"
+        }
+    }
+}

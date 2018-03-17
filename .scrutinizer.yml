@@ -1,7 +1,7 @@
 # .scrutinizer.yml
 build:
     nodes:
-        pho70:
+        php70:
             environment:
                 php: 7.0
             

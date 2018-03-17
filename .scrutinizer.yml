@@ -1,12 +1,18 @@
 # .scrutinizer.yml
 build:
-    tests:
-        override:
-            -
-                command: 'vendor/bin/phpunit --coverage-clover=/tmp/coverage.xml'
-                coverage:
-                    file: '/tmp/coverage.xml'
-                    format: 'clover'
+    nodes:
+        pho70:
+            environment:
+                php: 7.0
+            
+            tests:
+                override:
+                    -
+                        command: 'vendor/bin/phpunit --coverage-clover=/tmp/coverage.xml'
+                        coverage:
+                            file: '/tmp/coverage.xml'
+                            format: 'clover'
+                            
 checks:
     php: true
 

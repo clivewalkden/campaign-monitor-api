@@ -3,14 +3,6 @@ build:
     environment:
         php:
             version: 7.0.20
-            
-    tests:
-        override:
-            -
-                command: 'vendor/bin/phpunit --coverage-clover=/tmp/coverage.xml'
-                coverage:
-                    file: '/tmp/coverage.xml'
-                    format: 'clover'
                             
 checks:
     php: true

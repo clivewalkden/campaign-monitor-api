@@ -199,11 +199,6 @@ class CampaignMonitor
         curl_setopt($ch, CURLOPT_ENCODING, '');
         curl_setopt($ch, CURLINFO_HEADER_OUT, true);
 
-        // Debug
-//        $fp = fopen(SOZO_LOG_DIR . 'curl.txt', 'w');
-//        curl_setopt($ch, CURLOPT_VERBOSE, 1);
-//        curl_setopt($ch, CURLOPT_STDERR, $fp);
-
         switch ($http_verb) {
             case 'post':
                 curl_setopt($ch, CURLOPT_POST, true);
@@ -216,6 +211,11 @@ class CampaignMonitor
                 break;
 
             case 'delete':
+                if ($args['EmailAddress']) {
+                    $query = http_build_query(['email' => $args['EmailAddress']], '', '&');
+                    curl_setopt($ch, CURLOPT_URL, $url . '?' . $query);
+                }
+
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
                 break;
 
@@ -225,10 +225,13 @@ class CampaignMonitor
                 break;
 
             case 'put':
-                if ($args['email']) {
-                    $query = http_build_query(['email' => $args['email']], '', '&');
+                if ($args['EmailAddress']) {
+                    $query = http_build_query(['email' => $args['EmailAddress']], '', '&');
                     curl_setopt($ch, CURLOPT_URL, $url . '?' . $query);
                 }
+
+//                echo '<pre>'.print_r($args, true).'</pre>';
+
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
                 $this->attachRequestPayload($ch, $args);
                 break;
@@ -239,11 +242,20 @@ class CampaignMonitor
         $response = $this->setResponseState($response, $responseContent, $ch);
         $formattedResponse = $this->formatResponse($response);
 
+        if ($http_verb == 'delete') {
+            echo 'Responce: ';
+            echo '<pre>' . print_r($response, true) . '<pre>';
+        }
+//
+//
+//        echo 'FormattedResponce: ';
+//        echo '<pre>'.print_r($formattedResponse, true).'<pre>';
+
         curl_close($ch);
 
         $isSuccess = $this->determineSuccess($response, $formattedResponse, $timeout);
 
-        return is_array($formattedResponse) ? $formattedResponse : $isSuccess;
+        return is_array($formattedResponse) || ! is_bool($formattedResponse) ? $formattedResponse : $isSuccess;
     }
 
     private function prepareStateForRequest($http_verb, $method, $url, $timeout)
@@ -318,6 +330,8 @@ class CampaignMonitor
     private function attachRequestPayload(&$ch, $data)
     {
         $encoded = json_encode($data);
+//        echo 'Payload';
+//        echo '<pre>'.print_r($encoded, true).'</pre>';
         $this->last_request['body'] = $encoded;
         curl_setopt($ch, CURLOPT_POSTFIELDS, $encoded);
     }

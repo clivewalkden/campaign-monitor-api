@@ -170,7 +170,7 @@ class CampaignMonitor
     {
         $method = $this->formatMethod($method);
 
-        $url = $this->api_endpoint . $method . '.' . $this->format;
+        $url = $this->api_endpoint.$method.'.'.$this->format;
 
         $response = $this->prepareStateForRequest($http_verb, $method, $url, $timeout);
 
@@ -180,7 +180,7 @@ class CampaignMonitor
         ];
 
         if (isset($args["language"])) {
-            $httpHeader[] = "Accept-Language: " . $args["language"];
+            $httpHeader[] = "Accept-Language: ".$args["language"];
         }
 
         $ch = curl_init();
@@ -189,7 +189,7 @@ class CampaignMonitor
         curl_setopt($ch, CURLOPT_USERAGENT,
             'CliveWalkden/CampaignMonitor-API/3.1 (github.com/clivewalkden/campaign-monitor-api)');
         curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-        curl_setopt($ch, CURLOPT_USERPWD, $this->api_key . ':nopass');
+        curl_setopt($ch, CURLOPT_USERPWD, $this->api_key.':nopass');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_VERBOSE, true);
         curl_setopt($ch, CURLOPT_HEADER, true);
@@ -208,13 +208,13 @@ class CampaignMonitor
 
             case 'get':
                 $query = http_build_query($args, '', '&');
-                curl_setopt($ch, CURLOPT_URL, $url . '?' . $query);
+                curl_setopt($ch, CURLOPT_URL, $url.'?'.$query);
                 break;
 
             case 'delete':
                 if ($args['EmailAddress']) {
                     $query = http_build_query(['email' => $args['EmailAddress']], '', '&');
-                    curl_setopt($ch, CURLOPT_URL, $url . '?' . $query);
+                    curl_setopt($ch, CURLOPT_URL, $url.'?'.$query);
                 }
 
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
@@ -228,7 +228,7 @@ class CampaignMonitor
             case 'put':
                 if ($args['EmailAddress']) {
                     $query = http_build_query(['email' => $args['EmailAddress']], '', '&');
-                    curl_setopt($ch, CURLOPT_URL, $url . '?' . $query);
+                    curl_setopt($ch, CURLOPT_URL, $url.'?'.$query);
                 }
 
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
@@ -245,7 +245,7 @@ class CampaignMonitor
 
         $isSuccess = $this->determineSuccess($response, $formattedResponse, $timeout);
 
-        return is_array($formattedResponse) || ! is_bool($formattedResponse) ? $formattedResponse : $isSuccess;
+        return is_array($formattedResponse) || !is_bool($formattedResponse) ? $formattedResponse : $isSuccess;
     }
 
     private function prepareStateForRequest($http_verb, $method, $url, $timeout)
@@ -406,11 +406,11 @@ class CampaignMonitor
     private function findHTTPStatus($response, $formattedResponse)
     {
         if (!empty($response['headers']) && isset($response['headers']['http_code'])) {
-            return (int)$response['headers']['http_code'];
+            return (int) $response['headers']['http_code'];
         }
 
         if (!empty($response['body']) && isset($formattedResponse['status'])) {
-            return (int)$formattedResponse['status'];
+            return (int) $formattedResponse['status'];
         }
 
         return 418;

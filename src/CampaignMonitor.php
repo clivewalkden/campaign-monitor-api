@@ -198,6 +198,7 @@ class CampaignMonitor
         curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
         curl_setopt($ch, CURLOPT_ENCODING, '');
         curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+        curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
 
         switch ($http_verb) {
             case 'post':
@@ -230,8 +231,6 @@ class CampaignMonitor
                     curl_setopt($ch, CURLOPT_URL, $url . '?' . $query);
                 }
 
-//                echo '<pre>'.print_r($args, true).'</pre>';
-
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
                 $this->attachRequestPayload($ch, $args);
                 break;
@@ -241,17 +240,6 @@ class CampaignMonitor
         $response['headers'] = curl_getinfo($ch);
         $response = $this->setResponseState($response, $responseContent, $ch);
         $formattedResponse = $this->formatResponse($response);
-
-//        if ($http_verb == 'put') {
-//            echo 'PUT Responce: ';
-//            echo '<pre>' . print_r($response, true) . '<pre>';
-//        }
-//
-//
-//        if (in_array($http_verb, ['put', 'post','delete'])) {
-//            echo "FormattedResponce {$http_verb}: <br>";
-//            echo '<pre>' . print_r($formattedResponse, true) . '<pre>';
-//        }
 
         curl_close($ch);
 
@@ -310,13 +298,6 @@ class CampaignMonitor
 
             list($key, $value) = explode(': ', $line);
 
-//            if ($key == 'Link') {
-//                $value = array_merge(
-//                    array('_raw' => $value),
-//                    $this->getLinkHeaderAsArray($value)
-//                );
-//            }
-
             $headers[$key] = $value;
         }
 
@@ -332,8 +313,6 @@ class CampaignMonitor
     private function attachRequestPayload(&$ch, $data)
     {
         $encoded = json_encode($data);
-//        echo 'Payload';
-//        echo '<pre>'.print_r($encoded, true).'</pre>';
         $this->last_request['body'] = $encoded;
         curl_setopt($ch, CURLOPT_POSTFIELDS, $encoded);
     }

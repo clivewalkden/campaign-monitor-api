@@ -242,14 +242,16 @@ class CampaignMonitor
         $response = $this->setResponseState($response, $responseContent, $ch);
         $formattedResponse = $this->formatResponse($response);
 
-        if ($http_verb == 'delete') {
-            echo 'Responce: ';
-            echo '<pre>' . print_r($response, true) . '<pre>';
-        }
+//        if ($http_verb == 'put') {
+//            echo 'PUT Responce: ';
+//            echo '<pre>' . print_r($response, true) . '<pre>';
+//        }
 //
 //
-//        echo 'FormattedResponce: ';
-//        echo '<pre>'.print_r($formattedResponse, true).'<pre>';
+//        if (in_array($http_verb, ['put', 'post','delete'])) {
+//            echo "FormattedResponce {$http_verb}: <br>";
+//            echo '<pre>' . print_r($formattedResponse, true) . '<pre>';
+//        }
 
         curl_close($ch);
 

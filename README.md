@@ -15,3 +15,7 @@ You can install campaign-monitor-api using Composer:
 ```
 composer require clivewalkden/campaign-monitor-api
 ```
+
+## ChangeLog
+
+Read the [ChangeLog](./CHANGELOG.md)
